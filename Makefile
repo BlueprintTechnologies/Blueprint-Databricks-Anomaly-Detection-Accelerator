@@ -1,5 +1,5 @@
 # -*- make -*-
-# Last edited: <2022-03-14 10:47:58 wcobb>
+# Last edited: <2022-03-14 15:33:16 wcobb>
 
 PACKAGE="threat"
 PYVER="3.8"
@@ -163,6 +163,7 @@ clean:
 	@rm -f $(PWD)/$(DISTDIR)/$(PACKAGE)*.whl
 	@rm -f $(PWD)/$(DISTDIR)/$(PACKAGE)*.tgz
 	@rm -rf `find . -name "__pycache__" -print`
+	@cd tests ; make -f Makefile clean
 
 uninstall:
 	@echo "removing pip package..."
