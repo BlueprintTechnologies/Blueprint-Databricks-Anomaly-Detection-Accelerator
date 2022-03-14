@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#
+# get a list of requirements files.
+#
+# these should be named:  requirements1.txt requirements2.txt etc
+# where the sequence indicates the order in which they should be
+# installed.
+#
+OSNAME=`uname -s`
+pip install --upgrade pip
+#
+# install a bunch of packages...
+#
+for some_file in `ls etc/${OSNAME}/*.txt` ; do
+    # we update/upgrade pip between files just to guard
+    # against something funky happening...
+    # now install one of the files in the list...
+    pip install -r ${some_file}
+    #
+    # after each set of files, be paranoid and re-update pip
+    #
+    pip install --upgrade pip
+done    
+#
+# worked or not...
+#
+echo " "
+echo "pip has `pip list | wc -l` packages installed..."
+echo " "

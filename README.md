@@ -1,1 +1,2 @@
-# dns-threat
+Blueprint Technologies Data Science Project: "dns-threat" 
+

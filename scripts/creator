@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+# Script for setting up and configuring a python virtual environment
+# suitable for the flpoc...
+#
+source etc/project
+
+if [ "x`conda list | egrep ${PROJECT_NAME}`" != "x" ]; then
+    #
+    # there is already an environment called 'flpoc' -- destroy it
+    # so that we can start fresh...
+    #
+    conda env remove -y -n ${PROJECT_NAME}
+fi    
+#
+# initialize the environment...
+#
+conda create -y --name ${PROJECT_NAME} python=${DESIRED_PYVER}

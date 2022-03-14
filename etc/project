@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+export PROJECT_NAME="threat"
+export DESIRED_PYVER="3.8"
+

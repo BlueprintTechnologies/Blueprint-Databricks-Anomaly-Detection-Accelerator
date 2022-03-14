@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#
+# Script for setting up and configuring a python virtual environment
+# suitable for the flpoc...
+#
+source etc/project
+#
+clear
+echo "=================================================================="
+echo "If your GPU subsystem is properly configured, you may see several"
+echo "lines with entries like:"
+echo ""
+echo "   * opencl_nvidia_{stuff}"
+echo "   * opencl_amd_radeon_{stuff}"
+echo "   * llvm_cpu.{stuff}"
+echo "   * metal_intel(r)_{stuff}"
+echo "   * metal_amd_radeon_{stuff}"
+echo "   * opencl_intel(r)_{stuff}"
+echo ""
+echo "You will get much better performance from opencl_nvidia or opencl_amd"
+echo "drivers so choose one of those if possible..."
+echo ""
+echo "If your GPU subsystem is NOT properly configured, you will probably"
+echo "only see the llvm_cpu.{stuff} driver and you'll just have to live with"
+echo "that (poor performance and all)"
+echo ""
+echo "=================================================================="
+plaidml-setup
