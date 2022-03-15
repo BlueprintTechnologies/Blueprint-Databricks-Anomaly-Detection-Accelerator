@@ -1,0 +1,11 @@
+ipython
+pandas
+numpy
+dill
+jdcal
+logzero
+urllib3
+requests
+matplotlib
+scikit-learn
+scipy
