@@ -3,7 +3,7 @@
 Created on Tuesday, March 15, 2022 at 13:34:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-15 17:51:44 wcobb>
+Last edited: <2022-03-16 08:35:50 wcobb>
  
 """
 #
@@ -22,11 +22,10 @@ import requests, json, urllib.request
 # threat specific imports...
 #
 import threat
-from threat.core import Location, LocationError
+from threat.core import find_location
 
 if (__name__ == "__main__"):
     print("")
-    loc = Location()
-    info = loc.find("184.62.211.87")
+    info = find_location("184.62.211.87")
     for key in info.keys():
         print(f"'{key}': '{info[key]}'")

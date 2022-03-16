@@ -3,7 +3,7 @@
 Created on Tuesday, March 15, 2022 at 13:34:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-15 16:43:51 wcobb>
+Last edited: <2022-03-16 08:36:45 wcobb>
  
 """
 #
@@ -26,51 +26,23 @@ from threat.core import places
 from threat.core import excluding
 from threat.core import Latitude, Longitude
 
-class LocationError(Exception):
-    pass
+def find_location(self, ipaddr:str) -> {}:
+    """
+    given an IP address, search for information about the location
+    associated with it.
 
-class Location:
-    def __init__(self, verbose = False):
-        """
-        A class for managing the acquisition of information about
-        people's locations based on their IP addresses
-        
-        @TODO please improve this documentation
+    @TODO please improve this documentation
 
-        """
-        self.verbose = verbose
-
-    def find(self, ipaddr:str) -> {}:
-        """
-        given an IP address, search for information about the location
-        associated with it.
-
-        @TODO please improve this documentation
-
-        """
-        #
-        # super trivial case: ip-api.com
-        #
-        search = f"http://ip-api.com/json/{ipaddr}"
-        request = urllib.request.Request(search)
-        response = urllib.request.urlopen(request).read()
-        info = json.loads(response.decode("utf-8"))
-        #
-        # the information in from ip-api.com is quite sketchy...
-        #
-        return info
-
-    def __str__(self):
-        """
-        @TODO: please improve this documentation
-
-        """
-        return "<Location />"
-
-    def __repr__(self):
-        """
-        @TODO: please improve this documentation
-
-        """
-        return self.__str__()
+    """
+    #
+    # super trivial case: ip-api.com
+    #
+    search = f"http://ip-api.com/json/{ipaddr}"
+    request = urllib.request.Request(search)
+    response = urllib.request.urlopen(request).read()
+    info = json.loads(response.decode("utf-8"))
+    #
+    # the information in from ip-api.com is quite sketchy...
+    #
+    return info
 
