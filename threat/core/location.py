@@ -3,7 +3,7 @@
 Created on Tuesday, March 15, 2022 at 13:34:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-16 11:03:02 wcobb>
+Last edited: <2022-03-16 14:24:19 wcobb>
  
 """
 #
@@ -40,9 +40,33 @@ def find_location(ipaddr:str) -> {}:
     search = f"http://ip-api.com/json/{ipaddr}"
     request = urllib.request.Request(search)
     response = urllib.request.urlopen(request).read()
-    info = json.loads(response.decode("utf-8"))
+    location = json.loads(response.decode("utf-8"))
     #
-    # the information in from ip-api.com is quite sketchy...
+    # the information in from ip-api.com *can* be quite good
+    # but if the ORG is the same as the ISP then it's probably
+    # only giving us the ISP's physical location information...
     #
-    return info
+    if (location["isp"] != location["org"]):
+        location["trust"] = True
+    else:
+        location["trust"] = False
+    return location
+
+def find_country(ipaddr:str) -> str:
+    # country determinations are > 99.8% reliable
+    location = find_location(ipaddr)
+    return location["countryCode"]
+
+def find_region(ipaddr:str) -> str:
+    location = find_location(ipaddr)
+    return location["region"]
+
+def find_city(ipaddr:str) -> str:
+    location = find_location(ipaddr)
+    return location["city"]
+
+def find_latlon(ipaddr:str) -> (float, float):
+    location = find_location(ipaddr)
+    return (location["lat"], location["lon"])
+
 

@@ -3,7 +3,7 @@
 Created on Tuesday, March 15, 2022 at 13:34:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-16 11:03:23 wcobb>
+Last edited: <2022-03-16 14:26:39 wcobb>
  
 """
 #
@@ -36,6 +36,7 @@ if (__name__ == "__main__"):
     print("")
     mylat = Latitude("N", 34, 39, 43.31)
     print(f"latitude: {mylat} or {mylat.asfloat()}")
+    print("")
     mylon = Longitude("W", 92, 51, 38.75)
     print(f"longitude: {mylon} or {mylon.asfloat()}")
 

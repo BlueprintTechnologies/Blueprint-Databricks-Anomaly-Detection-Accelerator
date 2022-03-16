@@ -3,7 +3,7 @@
 Created on Tuesday, March 15, 2022 at 13:34:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-16 13:14:09 wcobb>
+Last edited: <2022-03-16 14:25:59 wcobb>
  
 """
 #
@@ -23,33 +23,34 @@ import requests, json, urllib.request
 #
 import threat
 from threat.core import find_location
+from threat.core import find_country, find_region, find_city, find_latlon 
 
 if (__name__ == "__main__"):
     print("")
-    address  = "184.62.211.87"
-    answer   = find_location(address)
-    countryCode = info["countryCode"]
-    print(f"ip-addr '{address}' comes from country-code '{countryCode}' (greater than 90% confidence)")
-    isp      = info["isp"]
-    org      = info["org"]
-    f32lat   = info["lat"]
-    f32lon   = info["lon"]
-    city     = info["city"]
-    region   = info["region"]
-    zipcode  = info["zip"]
-    timezone = info["timezone"]
-    if (isp == org):
-        #
-        # then this is probably an ISP (which means the
-        # other information is probably valid only for the
-        # provider itself and not the end user)
-        #
-        print(f" * block owned by ISP '{isp}' based in {city}, {region} {zipcode}")
-        print(f" * the ISP has lat: '{f32lat}', lon: '{f32lon}' and is in timezone '{timezone}'")
-    else:
-        #
-        # provider != company so there is a good chance that this is a legit address
-        #
-        print(f" * the ip-address appears to be located in {city}, {region} {zip}")
-        print(f" * the addr has lat: {f32lat}, lon: {f32lon} and is in timezone '{timezone}'")
-        
+    ip_address = "184.62.211.87"
+    print(f"{ip_address}:")
+    #
+    # to find the country... note the difference in the
+    #
+    country = find_country(ip_address)
+    print(f" * is in country '{country}'")
+    #
+    # to find the region...
+    #
+    region = find_region(ip_address)
+    print(f" * is in region '{region}'")
+    #
+    # to find the city...
+    #
+    city = find_city(ip_address)
+    print(f" * is in city '{city}'")
+    #
+    # to find the lat-lon...
+    #
+    lat, lon = find_latlon(ip_address)
+    print(f" * is at lat: '{lat}', lon: '{lon}'")
+    #
+    # when we are interested in lots of things...
+    #
+    location = find_location(ip_address)
+    print(f"\n{ip_address}:\n {location}")
