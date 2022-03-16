@@ -3,7 +3,7 @@
 Created on Tuesday, March 15, 2022 at 13:34:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-15 16:43:39 wcobb>
+Last edited: <2022-03-16 11:03:22 wcobb>
  
 """
 #
@@ -129,6 +129,7 @@ class MapCoordinate:
         @TODO: please improve this documentation
 
         """
+
         return self.__str__()
 
 class Latitude(MapCoordinate):

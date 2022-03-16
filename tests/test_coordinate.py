@@ -3,7 +3,7 @@
 Created on Tuesday, March 15, 2022 at 13:34:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-16 10:21:29 wcobb>
+Last edited: <2022-03-16 11:03:23 wcobb>
  
 """
 #
@@ -34,9 +34,9 @@ from threat.core import Latitude, Longitude
 
 if (__name__ == "__main__"):
     print("")
-    lat = Latitude("N", 34, 39, 43.31)
-    print(f"latitude: {lat}, or equivalently: {lat.asfloat()}")
-    lon = Longitude("W", 92, 51, 38.75)
-    print(f"longitude: {lon}, or equivalently: {lon.asfloat()}")
+    mylat = Latitude("N", 34, 39, 43.31)
+    print(f"latitude: {mylat} or {mylat.asfloat()}")
+    mylon = Longitude("W", 92, 51, 38.75)
+    print(f"longitude: {mylon} or {mylon.asfloat()}")
 
     

@@ -3,7 +3,7 @@
 Created on Tuesday, March 15, 2022 at 13:34:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-16 08:36:45 wcobb>
+Last edited: <2022-03-16 11:03:02 wcobb>
  
 """
 #
@@ -26,7 +26,7 @@ from threat.core import places
 from threat.core import excluding
 from threat.core import Latitude, Longitude
 
-def find_location(self, ipaddr:str) -> {}:
+def find_location(ipaddr:str) -> {}:
     """
     given an IP address, search for information about the location
     associated with it.
