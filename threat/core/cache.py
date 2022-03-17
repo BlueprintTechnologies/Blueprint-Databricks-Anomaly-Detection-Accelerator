@@ -3,7 +3,7 @@
 Created on Monday, March 14, 2022 at 16:07:38 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-17 08:59:09 wcobb>
+Last edited: <2022-03-17 10:41:34 wcobb>
  
 """
 #
@@ -24,6 +24,11 @@ class CacheError(Exception):
     pass
 
 class Cache:
+    """
+
+    @TODO: allow for locks so as to protect for multithreading...
+
+    """
     def __init__(self,
                  cache_name:str = "cache.dill",
                  overwrite:bool = False,
@@ -52,7 +57,12 @@ class Cache:
                 os.remove(self.data_path)
             self.data = {}
 
-    def search(self, ipaddr:str):
+    def search(self, ipaddr:str) -> {}:
+        """
+
+        @TODO: consider the how the keys() is used...
+
+        """
         if (not ipaddr in self.data.keys()):
             if (self.verbose) or (self.debug):
                 print(f"we haven't seen {ipaddr} before, looking for it...")
@@ -62,7 +72,8 @@ class Cache:
             self.data[ipaddr] = find_location(ipaddr)
             #
             # we're using the FREE version of the API ('throttled' == True)
-            # so pause for 2s between calls...
+            # so pause for 2s between calls... (this is brute force -- then
+            # consider using explicit timer for improving efficiency)
             #
             if (self.throttled):
                 time.sleep(self.interval)
@@ -70,6 +81,7 @@ class Cache:
             # ...initialize a reference counter...
             #
             self.data[ipaddr]["references"] = 0
+            self.record_count += 1
         elif ((ipaddr in self.data.keys()) and (self.data[ipaddr]["status"] == "success")):
             if (self.debug):
                 print(f"we HAVE seen {ipaddr} before and read it successfully...")
@@ -94,6 +106,7 @@ class Cache:
                 #
                 for key in test_data.keys():
                     self.data[ipaddr][key] = test_data[key]
+            self.data[ipaddr]["references"] += 1
         #
         # by now there definitely is a record in hand...
         #
@@ -101,10 +114,8 @@ class Cache:
         #
         # regardless, update the reference counter...
         #
-        self.record_count += 1
         if (self.record_count == self.threshold):
-            if (self.debug):
-                print(f"have read {self.record_count} new addresses, updating cache")
+            print(f"have read {self.record_count} new addresses, updating cache")
             #
             # save cache to disk every 'self.threshold' records...
             #

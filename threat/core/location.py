@@ -3,7 +3,7 @@
 Created on Tuesday, March 15, 2022 at 13:34:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-17 08:06:30 wcobb>
+Last edited: <2022-03-17 09:51:19 wcobb>
  
 """
 #
@@ -22,9 +22,6 @@ import requests, json, urllib.request
 # threat specific imports...
 #
 import threat
-from threat.core import places
-from threat.core import excluding
-from threat.core import Latitude, Longitude
 
 def find_location(ipaddr:str) -> {}:
     """
