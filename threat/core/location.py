@@ -3,7 +3,7 @@
 Created on Tuesday, March 15, 2022 at 13:34:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-16 14:24:19 wcobb>
+Last edited: <2022-03-17 08:06:30 wcobb>
  
 """
 #
@@ -41,15 +41,17 @@ def find_location(ipaddr:str) -> {}:
     request = urllib.request.Request(search)
     response = urllib.request.urlopen(request).read()
     location = json.loads(response.decode("utf-8"))
+    lkeys = list(location.keys())
     #
     # the information in from ip-api.com *can* be quite good
     # but if the ORG is the same as the ISP then it's probably
     # only giving us the ISP's physical location information...
     #
-    if (location["isp"] != location["org"]):
-        location["trust"] = True
-    else:
-        location["trust"] = False
+    location["trust"] = False
+    if ("isp" in lkeys) and ("org" in lkeys):
+        if (location["isp"] != location["org"]):
+            location["trust"] = True
+
     return location
 
 def find_country(ipaddr:str) -> str:

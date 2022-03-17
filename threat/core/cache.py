@@ -3,7 +3,7 @@
 Created on Monday, March 14, 2022 at 16:07:38 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-16 21:15:17 wcobb>
+Last edited: <2022-03-17 08:19:36 wcobb>
  
 """
 #
@@ -30,6 +30,8 @@ class Cache:
                  verbose:bool = False,
                  debug:bool = False,
                  threshold:int = 100,
+                 throttled:bool = True,
+                 interval:float = 2.0,
                 ):
         """
         """
@@ -38,6 +40,8 @@ class Cache:
         self.debug = debug
         self.threshold = threshold
         self.record_count = 0
+        self.throttled = throttled
+        self.interval = interval
         self.data_path = os.path.join(places("datasets"), cache_name)
 
         if (os.path.exists(self.data_path)) and (not self.overwrite):
@@ -56,6 +60,12 @@ class Cache:
             # well we haven't seen this one before so look it up...
             #
             self.data[ipaddr] = find_location(ipaddr)
+            #
+            # we're using the FREE version of the API ('throttled' == True)
+            # so pause for 2s between calls...
+            #
+            if (self.throttled):
+                time.sleep(self.interval)
             #
             # ...initialize a reference counter...
             #
@@ -105,11 +115,14 @@ class Cache:
         # so return it...
         #
         if (self.verbose) or (self.debug):
-            message = (f"ipaddr {ipaddr} is from " +
-                       f"{target['city']}, " +
-                       f"{target['region']}, " +
-                       f"{target['countryCode']}")
-            print(message)
+            if (target['status'] == 'success'):
+                message = (f"ipaddr {ipaddr} is from " +
+                           f"{target['city']}, " +
+                           f"{target['region']}, " +
+                           f"{target['countryCode']}")
+                print(message)
+            elif (target['message'] == 'private range'):
+                print("this is a private (internal) address")
         return target
 
     def load(self):
