@@ -3,7 +3,7 @@
 Created on Monday, March 14, 2022 at 16:07:38 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-17 08:32:33 wcobb>
+Last edited: <2022-03-17 08:57:06 wcobb>
  
 """
 #
@@ -39,7 +39,7 @@ if (__name__ == "__main__"):
     #
     # instantiate a cache object...  save the output every 
     #
-    cache = Cache(verbose = True, threshold = 100)
+    cache = Cache(verbose = True, debug = True, threshold = 100)
     #
     # now loop over the possible 
     #

@@ -3,7 +3,7 @@
 Created on Monday, March 14, 2022 at 16:07:38 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-17 08:19:36 wcobb>
+Last edited: <2022-03-17 08:59:09 wcobb>
  
 """
 #
@@ -104,7 +104,7 @@ class Cache:
         self.record_count += 1
         if (self.record_count == self.threshold):
             if (self.debug):
-                print(f"have read {self.record_count} addresses, updating cache")
+                print(f"have read {self.record_count} new addresses, updating cache")
             #
             # save cache to disk every 'self.threshold' records...
             #
@@ -147,14 +147,13 @@ class Cache:
 
         """
         nkeys = len(list(self.data.keys()))
-        nobs = np.sum([self.data[key]["references"] for key in self.data.keys()])
         strrep = ("<Cache " +
                   f"\n\tdata_path = {self.data_path}," + 
                   f"\n\toverwrite = {self.overwrite}," + 
                   f"\n\tverbose = {self.verbose}," + 
                   f"\n\tdebug = {self.debug}," + 
                   f"\n\tthreshold = {self.threshold}," + 
-                  f"\n\tdata = <dict with {nkeys} unique addresses and {nobs} observations of same>" +
+                  f"\n\tdata = <dict with {nkeys} unique addresses>" +
                   f"\n\t\>")
         return strrep
 
