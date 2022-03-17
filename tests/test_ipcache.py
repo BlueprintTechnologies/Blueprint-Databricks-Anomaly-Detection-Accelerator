@@ -3,7 +3,7 @@
 Created on Monday, March 14, 2022 at 16:07:38 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-15 14:58:18 wcobb>
+Last edited: <2022-03-16 19:38:27 wcobb>
  
 """
 #
@@ -17,50 +17,52 @@ import dill, gzip
 import threat
 from threat.core import places
 from threat.core import excluding
-from threat.core import location
-from threat.core import Address
+from threat.core import find_location
 
-
-class GeoCacheError(Exception):
-    """
-    @TODO: please improve this documentation
-    
-    """
+class ipcache_error(Exception):
     pass
 
-class GeoCache:
-    """
-    @TODO: please improve this documentation
-    
-    """
-    def __init__(geo_cache_name = "geo_cache.dill",
+class ipcache:
+    def __init__(ipcache_name = "ipcache.dill",
                  overwrite = False,
                  verbose = False,
-                 logger = None,
                  debug = False,
                 ):
         """
-        Initiator for the GeoCache class.
-
-
-        @TODO: please improve this documentation
-
         """
-        self.data_path = os.path.join(places("datasets"), locations_name)
         self.overwrite = overwrite
         self.verbose = verbose
-        self.logger = logger
-        self.debug = debug
+        self.data_path = os.path.join(
+            places("datasets"),
+            ipcache_name,
+        )
 
-        data_exists = os.path.exists(self.data_path)
-        if (not data_exists) or (self.overwrite):
-            self.ip_data = {}
-            self.mac_data = {}
+        if (not os.path.exists(self.data_path)) or (self.overwrite):
+            self.data = {}
             self.dump()
         else:
             self.load()
 
-    def __get(self, ip):
+    def __get(self, ipaddr:str):
+        if (ipaddr in self.data.keys()):
+            if (self.debug):
+                print(f"address {ipaddr} is already in the cache")
+        else:
+            this_location = find_location(ipaddr)
+            if (this_location["status"] == "success"):
+                #
+                # save the location if the find succeeded...
+                #
+                self.data[ipaddr] = this_location
+                self.dump()
+            else:
+                
+                
+            #
+            # save the data after each new entry...
+            #
+                
+            
         """
         Attempts to find the location data for an ip address via various network sources
         and services.
