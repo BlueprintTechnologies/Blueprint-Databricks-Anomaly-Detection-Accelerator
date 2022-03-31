@@ -3,13 +3,13 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-31 09:13:06 wcobb>
+Last edited: <2022-03-31 10:13:19 wcobb>
  
 """
 #
 # standard imports
 #
-import os
+import os, gzip
 import math
 import pandas as pd
 import numpy as np
@@ -241,7 +241,7 @@ if (__name__ == "__main__"):
     # load the traffic data...
     #
     print("load traffic data...")
-    traffic = loader()
+    traffic = loader(verbose = True)
     print(f"...loaded {len(traffic)} records")
     #
     # sort the data to find traffic...
@@ -552,5 +552,5 @@ if (__name__ == "__main__"):
 
     dill.dump(population,
               gzip.open(os.path.join(places("datasets"),
-                                     "population_metrics.dill"), "wb"))
+                                     "population_metrics.dill.gz"), "wb"))
     

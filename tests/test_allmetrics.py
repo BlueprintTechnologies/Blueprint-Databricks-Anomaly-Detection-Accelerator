@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-31 08:51:00 wcobb>
+Last edited: <2022-03-31 09:45:20 wcobb>
  
 """
 #
@@ -350,8 +350,8 @@ def display_proto_radar(population:{},
             else:
                 plt.close()
                 
-    updated_population_path = os.path.join(places("datasets"), "updated_population_metrics.dill")
-    dill.dump(population, open(updated_population_path, "wb"))
+    updated_population_path = os.path.join(places("datasets"), "updated_population_metrics.dill.gz")
+    dill.dump(population, gzip.open(updated_population_path, "wb"))
     return None
     
 if (__name__ == "__main__"):
@@ -373,12 +373,12 @@ if (__name__ == "__main__"):
     ##
     ## load the already-existing data...
     ##
-    population_name = "population_metrics.dill"
-    population_path = os.path.join(places("datasets"), "population_metrics.dill")
+    population_name = "population_metrics.dill.gz"
+    population_path = os.path.join(places("datasets"), population_name)
     if (not os.path.exists(population_path)):
         raise RuntimeError(f"Yikes!  Can't find {population_path}... have you run test_cachemap.py yet?")
     
-    population = dill.load(open(population_path, "rb"))
+    population = dill.load(gzip.open(population_path, "rb"))
     
     colors = [
         "indigo", "darkblue", "blue",

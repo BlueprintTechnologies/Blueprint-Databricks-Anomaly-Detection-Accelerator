@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-25 18:53:29 wcobb>
+Last edited: <2022-03-31 11:22:01 wcobb>
  
 """
 #
@@ -307,7 +307,9 @@ if (__name__ == "__main__"):
     print("")
     world_graphics = False
     metrics_graphics = False
-    population = dill.load(open("/data/blueprint/threat/datasets/updated_population_metrics.dill", "rb"))
+    population = dill.load(gzip.open(
+        "/data/blueprint/threat/datasets/updated_population_metrics.dill.gz",
+        "rb"))
     #
     # pass the population data object to the graphics routine...
     #
