@@ -3,7 +3,7 @@
 Created on Monday, March 14, 2022 at 16:07:38 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-03-17 10:41:34 wcobb>
+Last edited: <2022-03-30 14:50:15 wcobb>
  
 """
 #
@@ -36,7 +36,7 @@ class Cache:
                  debug:bool = False,
                  threshold:int = 100,
                  throttled:bool = True,
-                 interval:float = 2.0,
+                 interval:float = 3.0, 
                 ):
         """
         """
@@ -69,14 +69,16 @@ class Cache:
             #
             # well we haven't seen this one before so look it up...
             #
+            expected_wait = time.time() + self.interval
             self.data[ipaddr] = find_location(ipaddr)
             #
             # we're using the FREE version of the API ('throttled' == True)
-            # so pause for 2s between calls... (this is brute force -- then
-            # consider using explicit timer for improving efficiency)
+            # in principle we're only allowed to make 45 reqs/min -- so no
+            # faster than 1.33s / query...
             #
-            if (self.throttled):
-                time.sleep(self.interval)
+            keep_waiting = time.time() - expected_wait
+            if ((keep_waiting < 0) and (self.throttled)):
+                time.sleep(-keep_waiting)
             #
             # ...initialize a reference counter...
             #
