@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-13 09:50:39 wcobb>
+Last edited: <2022-04-13 09:59:38 wcobb>
  
 """
 #
@@ -17,6 +17,8 @@ import dill
 import pandas as pd
 import numpy as np
 from scipy.stats import mode
+
+from threat.core import places
 
 class AnomalyDetectorError(Exception):
     """A custom exception type for the anomaly detector
