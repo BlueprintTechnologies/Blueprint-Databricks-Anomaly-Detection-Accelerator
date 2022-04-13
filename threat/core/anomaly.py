@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-13 09:59:38 wcobb>
+Last edited: <2022-04-13 10:08:49 wcobb>
  
 """
 #
@@ -30,8 +30,8 @@ class AnomalyDetector():
     """
     def __init__(self,
                  stats_file_name:str = "updated_population_metrics.dill.gz",
-                 anomaly_threshold_internal:int = 1000,
-                 anomaly_threshold_external:int = 100,
+                 internal_threshold:int = 1000,
+                 external_threshold:int = 100,
                  overwrite:bool = False,
                  verbose:bool = True,
                  debug:bool = False,
@@ -46,26 +46,26 @@ class AnomalyDetector():
         #
         if (self.debug):
             print(f"...checking relative sizes of "
-                  +f"anomaly_threshold_internal and anomaly_threshold_external)")
-        if (anomaly_threshold_external >= anomaly_threshold_internal):
+                  +f"internal_threshold and external_threshold)")
+        if (external_threshold >= internal_threshold):
             raise AnomalyDetectorError(
-                f"the 'internal' threshold {anomaly_threshold_internal}"
+                f"the 'internal' threshold {internal_threshold}"
                 + f" must logically be less than the 'external' threshold"
-                + f" {anomaly_threshold_external}, yet it is not...")
+                + f" {external_threshold}, yet it is not...")
         if (self.debug):
-            print(f"...checking absolute size of anomaly_threshold_external)")
-        if (anomaly_threshold_external <= 0):
+            print(f"...checking absolute size of external_threshold)")
+        if (external_threshold <= 0):
             raise AnomalyDetectorError(
-                f"the 'external' threshold {anomaly_threshold_external}"
+                f"the 'external' threshold {external_threshold}"
                 + f" just logically be > 0, yet it is not...")
         if (self.debug):
-            print(f"...checking absolute size of anomaly_threshold_internal)")
-        if (anomaly_threshold_internal <= 0):
+            print(f"...checking absolute size of internal_threshold)")
+        if (internal_threshold <= 0):
             raise AnomalyDetectorError(
-                f"the 'internal' threshold {anomaly_threshold_internal}"
+                f"the 'internal' threshold {internal_threshold}"
                 + f" just logically be > 0, yet it is not...")
-        self.anomaly_threshold_internal = anomaly_threshold_internal
-        self.anomaly_threshold_external = anomaly_threshold_external
+        self.internal_threshold = internal_threshold
+        self.external_threshold = external_threshold
         #
         # the path the where the anomaly statistics data lives...
         #
@@ -103,8 +103,8 @@ class AnomalyDetector():
             + f"\n    verbose = '{self.verbose}',"
             + f"\n    debug = '{self.debug}',"
             + f"\n    metrics = '{type(self.metrics)}',"
-            + f"\n    anomaly_threshold_internal = '{self.anomaly_threshold_internal}',"
-            + f"\n    anomaly_threshold_external = '{self.anomaly_threshold_external}',"
+            + f"\n    internal_threshold = '{self.internal_threshold}',"
+            + f"\n    external_threshold = '{self.external_threshold}',"
             + f"\n/>"
         )
 
@@ -120,8 +120,8 @@ class AnomalyDetector():
             + f" verbose = '{self.verbose}',"
             + f" debug = '{self.debug}',"
             + f" metrics = '{type(self.metrics)}',"
-            + f" anomaly_threshold_internal = '{self.anomaly_threshold_internal}',"
-            + f" anomaly_threshold_external = '{self.anomaly_threshold_external}'"
+            + f" internal_threshold = '{self.internal_threshold}',"
+            + f" external_threshold = '{self.external_threshold}'"
             + " />"
         )
     
