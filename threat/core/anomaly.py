@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-13 10:08:49 wcobb>
+Last edited: <2022-04-13 15:18:27 wcobb>
  
 """
 #
@@ -29,7 +29,7 @@ class AnomalyDetector():
     """A class for managing the detection of anomalies
     """
     def __init__(self,
-                 stats_file_name:str = "updated_population_metrics.dill.gz",
+                 stats_file_name:str = "enriched_population_metrics.dill.gz",
                  internal_threshold:int = 1000,
                  external_threshold:int = 100,
                  overwrite:bool = False,

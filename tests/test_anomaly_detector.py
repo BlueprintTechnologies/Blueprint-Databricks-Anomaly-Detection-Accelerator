@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-13 10:09:17 wcobb>
+Last edited: <2022-04-13 15:20:34 wcobb>
  
 """
 #
@@ -11,6 +11,7 @@ Last edited: <2022-04-13 10:09:17 wcobb>
 #
 import gzip, os, time
 import math
+from math import log10
 import pandas as pd
 import numpy as np
 from scipy.stats import mode
@@ -30,5 +31,5 @@ if (__name__ == "__main__"):
     #
     # fetch population data...
     #
-    anomaly = AnomalyDetector()
-    
+    anomaly = AnomalyDetector(internal_threshold = 1000, external_threshold = 100, verbose = True)
+
