@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-13 15:20:54 wcobb>
+Last edited: <2022-04-13 16:41:38 wcobb>
  
 """
 #
@@ -28,12 +28,12 @@ def enrich_anomaly_metrics(enriched_metrics_name = "enriched_population_metrics.
                            updated_metrics_name  = "updated_population_metrics.dill.gz",
                            internal_threshold:int = 1000,
                            external_threshold:int = 100,
-                           overwrite = False
+                           overwrite = False,
                            verbose = True,
                            debug = False,
                           ):
     """Enrich existing anomaly metrics by adding several new metrics
-    namely 'mean_anomaly', 'max_anomaly', 'rareness', 'color', and
+\    namely 'mean_anomaly', 'max_anomaly', 'rareness', 'color', and
     'category'
 
     """
@@ -42,12 +42,14 @@ def enrich_anomaly_metrics(enriched_metrics_name = "enriched_population_metrics.
         #
         # already done and not overwriting, so just return...
         #
+        if (verbose):
+            print(f"{enriched_metrics_path} already exists so there is nothing to do")
         return None
     #
     # either hasn't been done yet or we're overwriting... let's see if we can
     # find the 'updated' metrics file...
     #
-    updated_metrics_path = os.path.join(places("dataset"), updated_metrics_path)
+    updated_metrics_path = os.path.join(places("datasets"), updated_metrics_name)
     if (not os.path.exists(updated_metrics_path)):
         raise RuntimeError(f"could not find {updated_metrics_path} -- have you run 'test_allmetrics.py' yet?")
     metrics = dill.load(gzip.open(updated_metrics_path, "rb"))
@@ -90,6 +92,7 @@ def enrich_anomaly_metrics(enriched_metrics_name = "enriched_population_metrics.
         metrics[proto]['metrics']['rareness'] = []
         metrics[proto]['metrics']['color'] = []
         metrics[proto]['metrics']['category'] = []
+        metrics[proto]['metrics']['label'] = []
         for i in range(0, count):
             mean_anomaly = metrics[proto]['metrics']['mean_anomaly'][i]
             if (mean_anomaly >= 0):
@@ -103,6 +106,21 @@ def enrich_anomaly_metrics(enriched_metrics_name = "enriched_population_metrics.
                 else:
                     dpower = 0
                 category = "internal"
+                if (dpower >= 5):
+                    color = 'red'
+                    label = f'< 1 in 100,000 {category}'
+                elif (dpower >= 4):
+                    color = 'yellow'
+                    label = f'< 1 in 10,000 {category}'
+                elif (dpower >= 3):
+                    color = 'green'
+                    label = f'< 1 in 1,000 {category}'
+                elif (dpower >= 2):
+                    color = 'blue'
+                    label = f'< 1 in 100 {category}'
+                else:
+                    color = 'indigo'
+                    label = f'common {category}'
             else:
                 #
                 # this score is based on how peculiar it is for the protocol to
@@ -114,30 +132,35 @@ def enrich_anomaly_metrics(enriched_metrics_name = "enriched_population_metrics.
                 else:
                     dpower = 0
                 category = "external"
-            if (dpower >= 5):
-                color = 'red'
-            elif (dpower >= 4):
-                color = 'orange'
-            elif (dpower >= 3):
-                color = 'yellow'
-            elif (dpower >= 2):
-                    color = 'green'
-            elif (dpower >= 1):
-                color = 'blue'
-            else:
-                color = 'indigo'
+                if (dpower >= 6):
+                    color = 'orange'
+                    label = f'< 1 in 1,000,000 {category}'
+                elif (dpower >= 5):
+                    color = 'lightgreen'
+                    label = f'< 1 in 100,000 {category}'
+                elif (dpower >= 4):
+                    color = 'teal'
+                    label = f'< 1 in 10,000 {category}'
+                else:
+                    color = 'magenta'
+                    label = f'common {category}'
+            #
+            # update the metrics entries...
+            #
             metrics[proto]['metrics']['rareness'].append(rareness)
             metrics[proto]['metrics']['color'].append(color)
             metrics[proto]['metrics']['category'].append(category)
+            metrics[proto]['metrics']['label'].append(label)
         #
         # let user see something about the scores...
         #
         if (verbose):
-            #print(f"\t...mean_anomaly scores [0:5] -- {metrics[proto]['metrics']['mean_anomaly'][0:5]}")
-            #print(f"\t...max_anomaly scores [0:5]  -- {metrics[proto]['metrics']['max_anomaly'][0:5]}")
-            print(f"\t...anomaly rareness [0:5] -- {metrics[proto]['metrics']['rareness'][0:5]}")
-            print(f"\t...anomaly color [0:5]    -- {metrics[proto]['metrics']['color'][0:5]}")
-            print(f"\t...anomaly category [0:5] -- {metrics[proto]['metrics']['category'][0:5]}")
+            print(f"\t...mean_anomaly scores [0:5] -- {metrics[proto]['metrics']['mean_anomaly'][0:5]}")
+            print(f"\t...max_anomaly scores [0:5]  -- {metrics[proto]['metrics']['max_anomaly'][0:5]}")
+            print(f"\t...anomaly rareness [0:5]    -- {metrics[proto]['metrics']['rareness'][0:5]}")
+            print(f"\t...anomaly color [0:5]       -- {metrics[proto]['metrics']['color'][0:5]}")
+            print(f"\t...anomaly category [0:5]    -- {metrics[proto]['metrics']['category'][0:5]}")
+            print(f"\t...anomaly label [0:5]       -- {metrics[proto]['metrics']['label'][0:5]}")
     #
     # save the output...
     #
@@ -149,8 +172,5 @@ if (__name__ == "__main__"):
     """
     """
     print("\nsmoke test for enrich_anomaly_metrics(...)")
-    verbose = True
-    internal_threshold = 1000
-    external_threshold = 100
-    metrics = enrich_anomaly_metrics(anomaly, verbose = verbose, internal_threshold = 1000, external_threshold = 100, verbose = True)
-
+    metrics = enrich_anomaly_metrics(internal_threshold = 1000, external_threshold = 100, verbose = True)
+    print("Done.")
