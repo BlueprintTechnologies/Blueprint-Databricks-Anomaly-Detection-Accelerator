@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-13 15:45:35 wcobb>
+Last edited: <2022-04-13 16:55:24 wcobb>
  
 """
 #
@@ -28,5 +28,7 @@ if (__name__ == "__main__"):
     """
     """
     print("\nfunctional test for AnomalyDetector")
-    metrics = AnomalyDetector(internal_threshold = 1000, external_threshold = 100, verbose = True)
+    ad = AnomalyDetector(verbose = True)
+    protocols = list(ad.metrics.keys())
+    print(f"protocols:\n{protocols}")
 
