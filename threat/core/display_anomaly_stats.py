@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-13 20:38:13 wcobb>
+Last edited: <2022-04-14 09:48:04 wcobb>
  
 """
 #
@@ -58,4 +58,4 @@ def display_anomaly_statistics(metrics:{}):
     print("|%8d |%8d |%8d |%8d |%8d |%8d |%8d |%8d | %8d |" %
           (nred, nyellow, ngreen, nblue, nindigo, norange, nltgreen, nteal, nmagenta))
     print("+---------+---------+---------+---------+---------+---------+---------+---------+----------+")
-    return None
+    return (nred, nyellow,ngreen, nblue, nindigo, norange, nltgreen, nteal, nmagenta)
