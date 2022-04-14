@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-14 13:29:14 wcobb>
+Last edited: <2022-04-14 13:39:35 wcobb>
  
 """
 #
@@ -65,7 +65,7 @@ if (__name__ == "__main__"):
     ax[0].set_title("$\it{Behavior}$ (Unexpected Activity Pattern for Protocol)",
                     fontsize = title_size)
     ax[0].set_xlabel("Likelihood", fontsize = label_size)
-    ax[0].set_ylabel("Occurences", fontsize = label_size)
+    ax[0].set_ylabel("Occurrences", fontsize = label_size)
     ax[0].set_xticks(internal_bins, internal_labels, fontsize = axis_size)
     ax[0].set_yticks([0.3, 1, 3, 10, 30, 100, 300, 1000, 3000, 10000,
                       30000, 100000, 300000, 1000000, 3000000], fontsize = axis_size)
@@ -77,7 +77,7 @@ if (__name__ == "__main__"):
     ax[1].set_title("$\it{Presence}$ (Rare or Unexpected Protocol Observed)",
                     fontsize = title_size)
     ax[1].set_xlabel("Likelihood", fontsize = label_size)
-    ax[1].set_ylabel("Occurences", fontsize = label_size)
+    ax[1].set_ylabel("Occurrences", fontsize = label_size)
     ax[1].set_xticks(external_bins, external_labels, fontsize = axis_size)
     ax[1].set_yticks([0.3, 1, 3, 10, 30, 100, 300, 1000, 3000, 10000,
                       30000, 100000, 300000, 1000000, 3000000], fontsize = axis_size)
