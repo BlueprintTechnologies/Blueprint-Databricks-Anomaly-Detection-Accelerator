@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-14 13:39:35 wcobb>
+Last edited: <2022-04-14 13:42:51 wcobb>
  
 """
 #
@@ -31,7 +31,7 @@ if (__name__ == "__main__"):
     """
     """
     print("\nfunctional test for AnomalyDetector")
-    computed = False
+    computed = True
     if (computed):
         anomaly = AnomalyDetector(verbose = True)
         numbers = display_anomaly_statistics(anomaly.metrics)
