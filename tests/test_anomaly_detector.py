@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-13 16:55:24 wcobb>
+Last edited: <2022-04-13 20:37:36 wcobb>
  
 """
 #
@@ -23,12 +23,15 @@ import dill
 
 import threat
 from threat.core import AnomalyDetector
+from threat.core import display_anomaly_statistics
 
 if (__name__ == "__main__"):
     """
     """
     print("\nfunctional test for AnomalyDetector")
-    ad = AnomalyDetector(verbose = True)
-    protocols = list(ad.metrics.keys())
-    print(f"protocols:\n{protocols}")
+    anomaly = AnomalyDetector(verbose = True)
+    #
+    # what do we have...
+    #
+    display_anomaly_statistics(anomaly.metrics)
 

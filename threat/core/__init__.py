@@ -3,7 +3,7 @@
 Created on Monday, March 14, 2022 at 09:35:13 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-13 15:18:06 wcobb>
+Last edited: <2022-04-13 20:35:54 wcobb>
  
 """
 #
@@ -23,3 +23,4 @@ from threat.core.display_proto_radar import *
 from threat.core.display_protocol_worldmap import *
 from threat.core.enrich_anomaly_metrics import *
 from threat.core.anomaly import *
+from threat.core.display_anomaly_stats import *

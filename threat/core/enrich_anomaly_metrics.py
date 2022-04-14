@@ -3,7 +3,7 @@
 Created on Monday, March 21, 2022 at 14:33:41 by 'Wesley Cobb <wesley@bpcs.com>'
 Copyright (C) 2022, by Blueprint Technologies. All Rights Reserved.
  
-Last edited: <2022-04-13 16:41:38 wcobb>
+Last edited: <2022-04-13 20:15:01 wcobb>
  
 """
 #
@@ -80,31 +80,51 @@ def enrich_anomaly_metrics(enriched_metrics_name = "enriched_population_metrics.
             metrics[proto]['metrics']['mean_anomaly'] = [-1.0] * count
             metrics[proto]['metrics']['max_anomaly'] = [-1.0] * count
         #
-        # now assign a likelihood metric... start by sorting in ASCENDING order
+        # create a sorted list of values for the mean anomaly (note that this will be
+        # an ascending list)... so say the list has from (0, 500000) values, then the
+        # 500,000th value would be the rarest thing in the list...
         #
-        ranked_mean_anomaly = sorted(metrics[proto]['metrics']['mean_anomaly'], reverse = False)
+        sorted_mean_anomaly = sorted(metrics[proto]['metrics']['mean_anomaly'], reverse = True)
+        #
+        # now associate the sorted score with the actual rank index... so say 3.554 is the
+        # largest mean_anomaly score and 500,000 is the index.  then the score_lookup will
+        # have 'score_lookup["3.55400"] = 500000' and we will use that later when we 
+        # produce the 'rareness' number
+        #
         score_lookup = {}
         for i in range(0, count):
-            score_lookup[f"{round(ranked_mean_anomaly[i], 5)}"] = i
+            score_lookup[f"{round(sorted_mean_anomaly[i], 5)}"] = i
         #
-        # now add a likelihood metric..
+        # now we'll be adding some additional content to the 'metrics' dictionary...
         #
         metrics[proto]['metrics']['rareness'] = []
-        metrics[proto]['metrics']['color'] = []
+        metrics[proto]['metrics']['color']    = []
         metrics[proto]['metrics']['category'] = []
-        metrics[proto]['metrics']['label'] = []
+        metrics[proto]['metrics']['label']    = []
         for i in range(0, count):
-            mean_anomaly = metrics[proto]['metrics']['mean_anomaly'][i]
-            if (mean_anomaly >= 0):
+            #
+            # read the mean anomaly value...
+            #
+            mean_anomaly_value = metrics[proto]['metrics']['mean_anomaly'][i]
+            #
+            # note that mean_anomaly_value will always be >= 0 for 'internal'
+            # anomalies, but note that we have explicitly set it to < 0 as a
+            # flag for 'external' anomalies...
+            #
+            if (mean_anomaly_value >= 0):
+                #print(f"mean_anomaly = {mean_anomaly_value}")
                 #
-                # this score is based on how peculiar the particular behavior is
-                # within the category of protocol (an INTERNAL anomaly)
+                # use the score_lookup table to read off the ranked index
+                # value for this score... there are some duplicates but since
+                # those are "ties" it doesn't really matter...
                 #
-                rareness = score_lookup[f"{round(mean_anomaly, 5)}"]
+                rareness = (count + 1)/ (1 + score_lookup[f"{round(mean_anomaly_value, 5)}"])
+                #print(f"rareness = {rareness}")
                 if (rareness > 1):
                     dpower = log10(rareness)
                 else:
                     dpower = 0
+                #print(f"dpower = {dpower}")
                 category = "internal"
                 if (dpower >= 5):
                     color = 'red'
@@ -121,6 +141,9 @@ def enrich_anomaly_metrics(enriched_metrics_name = "enriched_population_metrics.
                 else:
                     color = 'indigo'
                     label = f'common {category}'
+                #print(f"color = {color}")
+                #print(f"label = {label}")
+                #print("----------------------------")
             else:
                 #
                 # this score is based on how peculiar it is for the protocol to
@@ -172,5 +195,5 @@ if (__name__ == "__main__"):
     """
     """
     print("\nsmoke test for enrich_anomaly_metrics(...)")
-    metrics = enrich_anomaly_metrics(internal_threshold = 1000, external_threshold = 100, verbose = True)
+    metrics = enrich_anomaly_metrics(internal_threshold = 1000, external_threshold = 100, verbose = True, overwrite = True)
     print("Done.")
